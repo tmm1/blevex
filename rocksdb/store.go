@@ -131,6 +131,7 @@ func (s *Store) Close() error {
 	s.db = nil
 	C.rocksdb_options_destroy(s.opts)
 	s.opts = nil
+
 	return nil
 }
 
