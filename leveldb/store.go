@@ -82,6 +82,11 @@ func (s *Store) Writer() (store.KVWriter, error) {
 }
 
 func (s *Store) Compact() error {
+	// workaround for google/leveldb#227
+	err := s.db.Write(defaultWriteOptions(), nil)
+	if err != nil {
+		return err
+	}
 	s.db.CompactRange(levigo.Range{})
 	return nil
 }
