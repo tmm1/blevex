@@ -83,7 +83,8 @@ func (s *Store) Writer() (store.KVWriter, error) {
 
 func (s *Store) Compact() error {
 	// workaround for google/leveldb#227
-	err := s.db.Write(defaultWriteOptions(), nil)
+	// NULL batch means just wait for earlier writes to be done
+	err := s.db.Write(defaultWriteOptions(), &levigo.WriteBatch{})
 	if err != nil {
 		return err
 	}
